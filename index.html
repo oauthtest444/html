@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM XSS Test Bed</title>
+</head>
+<body>
+    <h1>Location.href Sink Test</h1>
+    <p>This page takes input from the <code>q</code> URL parameter and passes it directly to <code>location.href</code>.</p>
+    
+    <script>
+        // Extract the 'q' parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const payload = urlParams.get('q');
+
+        // Check if the payload exists before navigating
+        if (payload) {
+            console.log("Navigating to:", payload);
+            // Vulnerable sink triggering DOM XSS or Open Redirect
+            window.location.href = payload;
+        } else {
+            console.log("Provide a 'q' parameter in the URL. Example: ?q=javascript:alert(1)");
+        }
+    </script>
+</body>
+</html>
